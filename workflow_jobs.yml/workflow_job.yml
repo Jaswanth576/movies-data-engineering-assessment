@@ -1,0 +1,27 @@
+resources:
+  jobs:
+    media_analytics_movies_bronze_silver_gold:
+      name: media-analytics-movies-bronze-silver-gold
+      tasks:
+        - task_key: Raw_bronze_Load
+          notebook_task:
+            notebook_path: /Workspace/Bronze build/Raw_to_bronze
+            source: WORKSPACE
+        - task_key: bronze_Silver_Load
+          depends_on:
+            - task_key: Raw_bronze_Load
+          notebook_task:
+            notebook_path: /Workspace/silver build/Bronze_to_silver
+            source: WORKSPACE
+        - task_key: Gold_View_refresh
+          depends_on:
+            - task_key: bronze_Silver_Load
+          notebook_task:
+            notebook_path: /Workspace/Gold build/create or replace view
+            source: WORKSPACE
+      queue:
+        enabled: true
+      parameters:
+        - name: notebooks
+          default: /Workspace/Bronze_config/Bronze_Config_ImdbAdvancedMoviesDetails.sql,/Workspace/Bronze_config/Bronze_Config_ImdbMergedMoviesData.sql,/Workspace/Bronze_config/Bronze_config_ImdbMovies.sql,/Workspace/Bronze_config/Bronze_config_NetflixTitles.sql
+      performance_target: PERFORMANCE_OPTIMIZED
