@@ -44,7 +44,7 @@ To improve matching, titles are normalized before joining.
 ---
 
 ## Director Logic
-Only one director is required, so the first element from the IMDB list is selected.
+In the absence of a person_id, there is no deterministic way to identify or rank the directors in the list. As a result, the first value provided by IMDb is selected.
 
 ---
 
@@ -71,3 +71,10 @@ In a production system, this logic could be materialized for performance.
 ---
 
 ## Repository Structure
+
+.
+├── databricks.yml              # Databricks Asset Bundle configuration
+├── resources/                  # Workflow/job YAML definitions
+├── src/                        # Source notebooks and transformation logic
+├── docs/                       # Supporting documentation and notes
+└── README.md                   # Overview and execution instructions
